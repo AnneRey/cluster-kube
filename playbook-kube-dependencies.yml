@@ -1,0 +1,7 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: provision_cluster
+    include_role:
+      name: provision_cluster

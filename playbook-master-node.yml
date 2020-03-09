@@ -1,0 +1,11 @@
+---
+- hosts: master
+  become: true
+  tasks:
+  - name: provision_master
+    include_role:
+      name: provision_master
+
+  - name: master-node
+    include_role:
+      name: master-node 
