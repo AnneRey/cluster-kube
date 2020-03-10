@@ -1,14 +1,13 @@
+- name: create cluster.txt
+  file: 
+    path: "/home/ubuntu/cluster.txt"
+    state: touch
+
 - name: Start the cluster
-  shell: kubeadm init --pod-network-cidr=10.244.0.0/16 >> cluster.txt
-  args:
-    chdir: $HOME
-    creates: cluster.txt
+  shell: kubeadm init --ignore-preflight-errors=all --pod-network-cidr=10.244.0.0/16 >> cluster.txt
 
 - name: create .kube directory
-  file:
-    path: $HOME/.kube
-    state: directory
-    mode: 0755
+  command: mkdir -p /home/ubuntu/.kube
 
 - name: copy admin.conf to user's kube config
   copy:
@@ -22,5 +21,5 @@
   become_user: ubuntu
   shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml >> pod_setup.txt
   args:
-    chdir: $HOME
+    chdir: /home/ubuntu/
     creates: pod_setup.txt
